@@ -43,65 +43,9 @@ pip install e3nn==0.6.0 numpy pandas tqdm
 
 ## Data prerequisites
 
-The following must be present under `data/` before training:
+Everything is committed in the repo — `data/pocket_pointclouds/` (~211 MB, 10.7k `.npz` files), all CSVs, and split manifests. Just clone and train.
 
-| Path | In repo? | Source |
-|---|---|---|
-| `data/train.csv`, `data/val.csv`, `data/test.csv` | yes | `scripts/create_splits.py` |
-| `data/pocket_distributions.csv` | yes | `scripts/compute_pocket_distributions.py` |
-| `data/pdbbind_with_pockets.csv` | yes | `scripts/compute_pocket_distributions.py` |
-| `data/pocket_pointclouds/` (~10.7k `.npz` files, ~211 MB) | **NO** | `scripts/compute_pocket_pointclouds.py` — must regenerate |
-
-All intermediate CSVs are committed, so the only thing you need to regenerate is `data/pocket_pointclouds/`.
-
-### Regenerating `data/pocket_pointclouds/`
-
-This step requires the **PDBbind P-L (protein–ligand) dataset** with pocket PDB files. PDBbind is free but requires registration at http://www.pdbbind.org.cn.
-
-**1. Download and lay out PDBbind P-L** so the directory tree looks like:
-
-```
-<your_pdbbind_root>/P-L/
-  1981-2000/
-    1abc/
-      1abc_pocket.pdb
-      ...
-    ...
-  2001-2010/
-    ...
-  2011-2019/
-    ...
-```
-
-The three subdirectories (`1981-2000`, `2001-2010`, `2011-2019`) match the `data_subdir` column in `data/pdbbind_with_pockets.csv`. The `*_pocket.pdb` files are the standard PDBbind pocket files (10 Å around the ligand, included in the official P-L download).
-
-**2. Point the script at your PDBbind installation.** Edit `scripts/compute_pocket_pointclouds.py:52`:
-
-```python
-PDBBIND_DIR = Path("/Users/alannadels/Desktop/datasets/PDBbind/P-L")  # ← change this
-```
-
-**3. Generate the point clouds:**
-
-```
-cd pocket_ligand
-python scripts/compute_pocket_pointclouds.py
-```
-
-This reads `data/pdbbind_with_pockets.csv`, parses each pocket PDB into a centroid-centered point cloud with 46-dim atom features, and writes one `.npz` per entry to `data/pocket_pointclouds/`. Expect ~10–20 minutes on a laptop, output ~211 MB.
-
-If any pocket files fail to parse, they're logged to `data/ligand_parse_failures.txt` and skipped. The training script handles missing entries gracefully — `dataset.py` filters split rows whose `.npz` is absent.
-
-### (Optional) Regenerating the upstream CSVs from scratch
-
-The committed CSVs are sufficient. But if you want to rebuild the full pipeline, the scripts run in this order (each consumes the previous output):
-
-1. `scripts/parse_pdbbind_index.py` → `data/pdbbind_all.csv`
-2. `scripts/compute_ligand_properties.py` → `data/pdbbind_with_properties.csv`
-3. `scripts/enrich_protein_metadata.py` → `data/pdbbind_enriched.csv` (hits the RCSB GraphQL API)
-4. `scripts/compute_pocket_distributions.py` → `data/pocket_distributions.csv`, `data/pdbbind_with_pockets.csv`
-5. `scripts/compute_pocket_pointclouds.py` → `data/pocket_pointclouds/` (the missing piece above)
-6. `scripts/create_splits.py` → `data/train.csv`, `data/val.csv`, `data/test.csv`
+If you ever need to regenerate `data/pocket_pointclouds/` from scratch, run `scripts/compute_pocket_pointclouds.py` after editing `PDBBIND_DIR` at line 52 to point at your PDBbind P-L installation.
 
 ## Train
 
