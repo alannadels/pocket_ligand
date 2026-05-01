@@ -1,0 +1,4 @@
+split,n_proteins,n_pockets,n_pockets_3plus,n_pockets_small,n_point_clouds
+train,511,581,531,50,6374
+val,109,129,114,15,1071
+test,1517,1585,114,1471,2927

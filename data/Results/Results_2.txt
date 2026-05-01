@@ -1,0 +1,40 @@
+======================================================================
+EVALUATION RESULTS (original units)
+======================================================================
+
+Target                           MAE       RMSE         R²
+-------------------------------------------------------
+MW_mean                     200.3362   323.9558    -0.0011
+MW_std                       74.7574    94.6333    -0.2349
+logP_mean                     3.4231     4.8595    -0.0000
+logP_std                      1.1151     1.4407    -0.2263
+HBD_mean                      2.8078     4.9207     0.0005
+HBD_std                       1.0255     1.4024    -0.1767
+HBA_mean                      4.0982     6.4150    -0.0490
+HBA_std                       1.3781     1.8207    -0.2157
+TPSA_mean                    94.2947   158.1249    -0.0400
+TPSA_std                     30.9577    41.9785    -0.1532
+rotatable_bonds_mean          6.7658    11.5027    -0.0126
+rotatable_bonds_std           2.4340     3.2620    -0.1858
+formal_charge_mean            1.0748     1.7117    -0.0541
+formal_charge_std             0.4411     0.5285    -0.2457
+aromatic_rings_mean           1.0082     1.2899     0.1253
+aromatic_rings_std            0.5170     0.6027    -0.2820
+fsp3_mean                     0.1780     0.2246     0.1582
+fsp3_std                      0.0887     0.1033    -0.5378
+
+Property                         MAE       RMSE
+---------------------------------------------
+MW                          137.5468   209.2945
+logP                          2.2691     3.1501
+HBD                           1.9166     3.1615
+HBA                           2.7382     4.1178
+TPSA                         62.6262   100.0517
+rotatable_bonds               4.5999     7.3824
+formal_charge                 0.7580     1.1201
+aromatic_rings                0.7626     0.9463
+fsp3                          0.1333     0.1639
+
+Overall                      23.7056    88.4788
+
+Predictions saved to: /home/ubuntu/pocket_ligand/model/checkpoints/test_predictions.csv

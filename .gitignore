@@ -1,0 +1,23 @@
+# Point cloud dataset (~211 MB, regenerate with scripts/compute_pocket_pointclouds.py)
+data/pocket_pointclouds/
+
+# Model checkpoints
+model/checkpoints/*.pt
+model/checkpoints/training_log_*.csv
+model/checkpoints/train_*.log
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/
+
+# Virtualenvs
+venv/
+.venv/
+*_env/
